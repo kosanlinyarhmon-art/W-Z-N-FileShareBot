@@ -1,5 +1,6 @@
 import os
 from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton 
 from flask import Flask
 from threading import Thread
 
@@ -28,14 +29,19 @@ Bot = Client(
     api_hash=API_HASH
 )
 
-@Client.on_message(filters.private & (filters.photo & filters.video & filters.voice & filters.document & filters.animation & filters.audio & filters.sticker))
+@Bot.on_message(filters.private & (filters.photo | filters.video | filters.voice | filters.document | filters.animation | filters.audio | filters.sticker))
 async def hagadmansa(bot, message):
-  hagadmansa = await message.reply("`Processing...`")
-  media = message.photo or message.video or message.voice or message.document or message.animation or message.audio or message.sticker 
-  link = f"https://t.me/{BOT_USERNAME}?start={media.file_id}"
-  share = f"https://t.me/share/url?url={link}&text=Click%20on%20link%20to%20get%20the%20file%20now,%20Join%20@Hagadmansa"
-  await hagadmansa.edit("Hello"
-    text=f"Here is your link: {link}",
-    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Share now', url=share)]])
+    hagadmansa = await message.reply("`Processing...`")
+    media = message.photo or message.video or message.voice or message.document or message.animation or message.audio or message.sticker 
+    link = f"https://t.me/{BOT_USERNAME}?start={media.file_id}"
+    share = f"https://t.me/share/url?url={link}&text=Click%20on%20link%20to%20get%20the%20file%20now,%20Join%20@Hagadmansa"
+    
+    # ဒီနေရာမှာ ပြင်ထားပါတယ်
+    await hagadmansa.edit(
+        text=f"Here is your link: {link}",
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Share now', url=share)]])
+    )
 
-Bot.run()
+if __name__ == "__main__":
+    keep_alive()
+    Bot.run()
