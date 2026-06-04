@@ -4,7 +4,6 @@ from threading import Thread
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-# ၁။ Flask Instance ကို ဒီမှာ သေချာကြေညာပေးပါ
 app = Flask(__name__)
 
 @app.route('/')
@@ -12,7 +11,6 @@ def home():
     return "Bot is running!"
 
 def run():
-    # Render ပေးတဲ့ port ကို သုံးပါ
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
 
@@ -20,7 +18,6 @@ def keep_alive():
     t = Thread(target=run)
     t.start()
 
-# Variables
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 API_ID = int(os.environ.get("API_ID"))
 API_HASH = os.environ.get("API_HASH")
@@ -46,7 +43,5 @@ async def hagadmansa(bot, message):
     )
 
 if __name__ == "__main__":
-    # ၂။ Flask ကို အရင် run ပါ
     keep_alive()
-    # ၃။ Bot ကို run ပါ
     Bot.run()
