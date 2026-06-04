@@ -25,7 +25,7 @@ def run():
 
 def keep_alive():
     t = Thread(target=run)
-    t.start()
+    t.run()
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 API_ID = int(os.environ.get("API_ID"))
@@ -53,3 +53,5 @@ async def hagadmansa(bot, message):
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 10000)))
+    Thread(target=run_flask).start()
+    Bot.run()
