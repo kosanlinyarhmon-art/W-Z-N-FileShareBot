@@ -5,6 +5,18 @@ from flask import Flask
 from threading import Thread
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# ပြီးရင် Code ရဲ့ အောက်ဆုံးမှာ ဒီလိုလေး ပြင်ပါ:
+if __name__ == "__main__":
+    try:
+        Thread(target=run_flask).start()
+        print("Bot is starting...")
+        Bot.run()
+    except Exception as e:
+        print(f"--- CRITICAL ERROR: {e} ---")
 
 # Flask Setup
 app = Flask(__name__)
