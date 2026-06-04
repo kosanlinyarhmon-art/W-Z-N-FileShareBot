@@ -27,7 +27,7 @@ def keep_alive():
     t = Thread(target=run)
     t.run()
 proxy = dict(
-    hostname="43.128.68.75",
+    hostname="118.107.29.235",
     port=1080
 )
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
