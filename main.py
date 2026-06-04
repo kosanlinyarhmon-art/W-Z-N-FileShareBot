@@ -1,15 +1,10 @@
 import os
-import sys
-import logging
-from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from flask import Flask
 from threading import Thread
+from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-# Error တွေကို Log မှာ ပြအောင် လုပ်ပေးခြင်း
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
+# ၁။ Flask Instance ကို ဒီမှာ သေချာကြေညာပေးပါ
 app = Flask(__name__)
 
 @app.route('/')
@@ -17,6 +12,7 @@ def home():
     return "Bot is running!"
 
 def run():
+    # Render ပေးတဲ့ port ကို သုံးပါ
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
 
@@ -24,15 +20,11 @@ def keep_alive():
     t = Thread(target=run)
     t.start()
 
-# Variable တွေကို စစ်ဆေးခြင်း
-try:
-    BOT_TOKEN = os.environ["BOT_TOKEN"]
-    API_ID = int(os.environ["API_ID"])
-    API_HASH = os.environ["API_HASH"]
-    BOT_USERNAME = os.environ["BOT_USERNAME"]
-except KeyError as e:
-    logger.error(f"Missing Environment Variable: {e}")
-    sys.exit(1)
+# Variables
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+API_ID = int(os.environ.get("API_ID"))
+API_HASH = os.environ.get("API_HASH")
+BOT_USERNAME = os.environ.get("BOT_USERNAME")
 
 Bot = Client(
     "File Store Bot",
@@ -41,9 +33,20 @@ Bot = Client(
     api_hash=API_HASH
 )
 
-# ... ကျန်တဲ့ Bot Code များ ...
+@Bot.on_message(filters.private & (filters.photo | filters.video | filters.voice | filters.document | filters.animation | filters.audio | filters.sticker))
+async def hagadmansa(bot, message):
+    msg = await message.reply("`Processing...`")
+    media = message.photo or message.video or message.voice or message.document or message.animation or message.audio or message.sticker 
+    link = f"https://t.me/{BOT_USERNAME}?start={media.file_id}"
+    share = f"https://t.me/share/url?url={link}&text=Click%20on%20link%20to%20get%20the%20file%20now,%20Join%20@Hagadmansa"
+    
+    await msg.edit(
+        text=f"Here is your link: {link}",
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Share now', url=share)]])
+    )
 
 if __name__ == "__main__":
+    # ၂။ Flask ကို အရင် run ပါ
     keep_alive()
-    logger.info("Starting Bot...")
+    # ၃။ Bot ကို run ပါ
     Bot.run()
