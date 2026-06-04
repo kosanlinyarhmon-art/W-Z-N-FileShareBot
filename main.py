@@ -26,7 +26,10 @@ def run():
 def keep_alive():
     t = Thread(target=run)
     t.run()
-
+proxy = dict(
+    hostname="43.128.68.75",
+    port=1080
+)
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 API_ID = int(os.environ.get("API_ID"))
 API_HASH = os.environ.get("API_HASH")
