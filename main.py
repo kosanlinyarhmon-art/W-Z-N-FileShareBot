@@ -1,4 +1,6 @@
-import os
+import sys
+print("--- SCRIPT STARTED ---")
+sys.stdout.flush()
 from flask import Flask
 from threading import Thread
 from pyrogram import Client, filters
