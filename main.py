@@ -1,4 +1,5 @@
 import os
+import sys
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton 
 from flask import Flask
@@ -19,9 +20,13 @@ def keep_alive():
     t.start()
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
-API_ID = int(os.environ.get("API_ID"))
+API_ID = os.environ.get("API_ID")
 API_HASH = os.environ.get("API_HASH")
 BOT_USERNAME = os.environ.get("BOT_USERNAME")
+
+if not BOT_TOKEN or not API_ID or not API_HASH:
+    print("Error: Environment variables missing!")
+    sys.exit(1)
 
 Bot = Client(
     "File Store Bot",
