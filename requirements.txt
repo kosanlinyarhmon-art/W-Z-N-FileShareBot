@@ -1,2 +1,5 @@
 pyrogram
 tgcrypto
+pysocks
+pyaes
+flask
