@@ -34,7 +34,7 @@ async def hagadmansa(bot, message):
   media = message.photo or message.video or message.voice or message.document or message.animation or message.audio or message.sticker 
   link = f"https://t.me/{BOT_USERNAME}?start={media.file_id}"
   share = f"https://t.me/share/url?url={link}&text=Click%20on%20link%20to%20get%20the%20file%20now,%20Join%20@Hagadmansa"
-  await hagadmansa.edit(
+  await hagadmansa.edit("Hello")
     text=f"Here is your link: {link}",
     reply_markup=InlineKeyboardMarkup(
         [[
